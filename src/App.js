@@ -7,7 +7,8 @@ class App extends Component{
   constructor(){
     super();
     this.state={
-      monstors:[]
+      monstors:[],
+      searchField:""
     }
   }
   componentDidMount(){
@@ -19,14 +20,15 @@ class App extends Component{
   render(){
     return (
       <div className="App">
-        <CardList>
-        {
-          this.state.monstors.map(monster=>(
-          <h1 key={monster.id}>{monster.name}</h1>
-          ))
-        }
-        </CardList>
+        <input type="search" 
+        placeholder="Search Monster"
+        onChange={e=> 
+          //setState is asynchronous function so pass the callback to make it sync
+          this.setState({searchField: e.target.value})}
+        
        
+        /> 
+        <CardList monstors= {this.state.monstors}/>
       </div>
     );
   }
