@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {CardList} from './components/card-list/card-list.component'
-
+import {SearchBox} from './components/search-box/search-box.component'
 import './App.css';
 
 class App extends Component{
@@ -17,18 +17,21 @@ class App extends Component{
     .then(users=>this.setState({monstors:users}))
 
   }
+  handleChange= (e)=>{
+     this.setState({searchField: e.target.value})
+  }
   render(){
+    const { monstors, searchField } = this.state;
+    const filteredMonstors = monstors.filter(monstor =>
+        monstor.name.toLowerCase().includes(searchField.toLowerCase())
+      )
     return (
       <div className="App">
-        <input type="search" 
-        placeholder="Search Monster"
-        onChange={e=> 
-          //setState is asynchronous function so pass the callback to make it sync
-          this.setState({searchField: e.target.value})}
-        
-       
-        /> 
-        <CardList monstors= {this.state.monstors}/>
+        <SearchBox
+          placeholder='Search Monster'
+          handleChange= {this.handleChange}
+        />
+        <CardList monstors= {filteredMonstors}/>
       </div>
     );
   }
